@@ -14,47 +14,66 @@ title:
 Classic page layouts.
 
 ```jsx
-import { Layout } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout;
 
-ReactDOM.render(
-  <div>
-    <Layout>
-      <Header>Header</Header>
-      <Content>Content</Content>
-      <Footer>Footer</Footer>
-    </Layout>
+class SiderDemo extends React.Component {
+  state = {
+    collapsed: false,
+  };
 
-    <Layout>
-      <Header>Header</Header>
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
+  render() {
+    return (
       <Layout>
-        <Sider>Sider</Sider>
-        <Content>Content</Content>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} collapsedWidth={0}>
+          <div className="logo" />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+              <Icon type="user" />
+              <span>nav 1</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="video-camera" />
+              <span>nav 2</span>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Icon type="upload" />
+              <span>nav 3</span>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+          </Header>
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              background: '#fff',
+              minHeight: 280,
+            }}
+          >
+            Content
+          </Content>
+        </Layout>
       </Layout>
-      <Footer>Footer</Footer>
-    </Layout>
+    );
+  }
+}
 
-    <Layout>
-      <Header>Header</Header>
-      <Layout>
-        <Content>Content</Content>
-        <Sider>Sider</Sider>
-      </Layout>
-      <Footer>Footer</Footer>
-    </Layout>
-
-    <Layout>
-      <Sider>Sider</Sider>
-      <Layout>
-        <Header>Header</Header>
-        <Content>Content</Content>
-        <Footer>Footer</Footer>
-      </Layout>
-    </Layout>
-  </div>,
-  mountNode,
-);
+ReactDOM.render(<SiderDemo />, mountNode);
 ```
 
 <style>
@@ -85,5 +104,24 @@ ReactDOM.render(
 }
 #components-layout-demo-basic > .code-box-demo > div > .ant-layout:last-child {
   margin: 0;
+}
+
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
 }
 </style>

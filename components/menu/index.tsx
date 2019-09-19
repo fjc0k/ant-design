@@ -297,18 +297,19 @@ class InternalMenu extends React.Component<InternalMenuProps, MenuState> {
     }
 
     // https://github.com/ant-design/ant-design/issues/8587
-    if (
+    const hideMenu =
       this.getInlineCollapsed() &&
-      (collapsedWidth === 0 || collapsedWidth === '0' || collapsedWidth === '0px')
-    ) {
-      return null;
-    }
+      (collapsedWidth === 0 || collapsedWidth === '0' || collapsedWidth === '0px');
 
     return (
       <RcMenu
         getPopupContainer={getPopupContainer}
         {...passProps}
         {...menuProps}
+        style={{
+          display: hideMenu ? 'none' : '',
+          ...passProps.style,
+        }}
         prefixCls={prefixCls}
         onTransitionEnd={this.handleTransitionEnd}
         onMouseEnter={this.handleMouseEnter}
